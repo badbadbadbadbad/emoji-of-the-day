@@ -53,6 +53,15 @@ async function init() {
             "transport-ground",
             "transport-water",
             "transport-air",
+            // Food & drink
+            "food-fruit",
+            "food-vegetable",
+            "food-prepared",
+            "food-asian",
+            "food-marine",
+            "food-sweet",
+            "drink",
+            "dishware",
             // Objects
             "tool",
             "household",
