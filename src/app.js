@@ -33,11 +33,44 @@ async function init() {
     );
 
     try {
+        const ALLOWED_SUBGROUPS = new Set([
+            // Animals
+            "animal-mammal",
+            "animal-bird",
+            "animal-marine",
+            "animal-reptile",
+            "animal-bug",
+            "animal-amphibian",
+            // Nature
+            "plant-flower",
+            "plant-other",
+            "sky & weather",
+            // Travel & places
+            "place-map",
+            "place-building",
+            "place-religious",
+            "place-other",
+            "transport-ground",
+            "transport-water",
+            "transport-air",
+            // Objects
+            "tool",
+            "household",
+            "other-object",
+        ]);
+
         const response = await fetch(EMOJI_CDN);
-        const emojis = await response.json();
+        const allEmojis = await response.json();
+
+        console.log([...new Set(allEmojis.map(e => e.subgroup))]);
+
+        const filteredEmojis = allEmojis.filter(e =>
+            ALLOWED_SUBGROUPS.has(e.subgroup) &&
+            !/[\u{1F3FB}-\u{1F3FF}]/u.test(e.char)  // still exclude skin tone variants
+        );
 
         const seed = getTodaySeed();
-        const emoji = emojis[Math.floor(seededRandom(seed) * emojis.length)];
+        const emoji = filteredEmojis[Math.floor(seededRandom(seed) * filteredEmojis.length)];
 
         document.getElementById("emoji-display").textContent = emoji.char;
         document.getElementById("emoji-name").textContent = emoji.name;
